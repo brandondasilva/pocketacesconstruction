@@ -28,6 +28,8 @@ router.post ('/', function(req, res) {
     live: true
   })
 
+  item.then(i => console.log(i));
+
   res.send(req.body);
 });
 

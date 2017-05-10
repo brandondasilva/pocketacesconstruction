@@ -14,10 +14,10 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 var quote = require('./routes/quote');
-// var instagram = require('./routes/instagram');
+var instagram = require('./routes/instagram');
 
 app.use('/quote', quote);
-// app.use('/instagram', instagram);
+app.use('/instagram', instagram);
 
 app.get('/', function(req, res) {
   res.set('Access-Control-Allow-Origin', '*');

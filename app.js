@@ -11,6 +11,7 @@ app.set('port', PORT);
 app.use(express.static(__dirname + '/public'));
 
 var bodyParser = require('body-parser');
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 var quote = require('./routes/quote');

@@ -42,12 +42,10 @@ router.post ('/', function(req, res) {
     console.log(response.body);
     console.log(response.headers);
     console.log('--PAC EMAIL RESPONSE END--\n');
-
-    res.send(response);
   });
 
   // USER Email
-  sg.API(request, function(error, response) {
+  sg.API(request2, function(error, response) {
     USER_Response = response.statusCode;
 
     // Log response

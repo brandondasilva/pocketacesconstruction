@@ -16,7 +16,20 @@ router.get ('/', function(req, res) {
 router.post ('/', function(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
 
+  var from_email = new helper.Email('info@pocketacescon.com', "Pocket Aces Construction");
+  var to_email = new helper.Email('brandon@bdsdesign.co');
+  var subject = "New quote request from the Pocket Aces Construction website";
 
+  var mail = new helper.Mail(from_email, subject, to_email, content);
+
+
+  mail.setTemplateId(process.env.QUOTE_PAC_TEMPLATE);
+
+
+  var mail2 = new helper.Mail(from_email, subject, to_email, content);
+
+
+  mail2.setTemplateId(process.env.QUOTE_USER_TEMPLATE);
 
   // HTTP POST to Slack Webhook to post an update on Slack
   // request({

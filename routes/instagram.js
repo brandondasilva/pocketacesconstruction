@@ -29,11 +29,11 @@ router.post ('/', function(req, res) {
     live: true
   });
 
-  var slackResponse = "A new Instagram post has been posted and uploaded to Webflow:\n\n\n";
-  slackResponse += "Name: " + req.body['name'] + "\n\n";
-  slackResponse += "Post Link: " + req.body['link'] + "\n\n";
-  slackResponse += "Image Link: " + req.body['image'] + "\n\n";
-  slackResponse += "This needs to be published to the Webflow CMS";
+  // var slackResponse = "A new Instagram post has been posted and uploaded to Webflow:\n\n\n";
+  // slackResponse += "Name: " + req.body['name'] + "\n\n";
+  // slackResponse += "Post Link: " + req.body['link'] + "\n\n";
+  // slackResponse += "Image Link: " + req.body['image'] + "\n\n";
+  // slackResponse += "This needs to be published to the Webflow CMS";
 
   // request.post(
   //   'https://hooks.slack.com/services/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',
@@ -50,7 +50,30 @@ router.post ('/', function(req, res) {
     method: "POST",
     json: true,
     body: {
-      "text": slackResponse
+      "attachments": [
+        {
+          "fallback": "A new post from Instagram has been posted to Webflow.",
+          "color": "#36a64f",
+          "pretext": "A new post from Instagram has been posted to Webflow.",
+          "title": "Instagram Post to Webflow",
+          "text": "This needs to be published to the Webflow CMS via the Webflow Editor",
+          "fields": [
+            {
+              "title": "Name",
+              "value": req.body['name'],
+              "short": false
+            }, {
+              "title": "Post Link",
+              "value": req.body['link'],
+              "short": false
+            }, {
+              "title": "Image Link",
+              "value": req.body['image'],
+              "short": false
+            }
+          ]
+        }
+      ]
     }, function (error, response, body) {
       if (!error && response.statusCode == 200) {
         console.log(body);

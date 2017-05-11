@@ -25,8 +25,7 @@ router.post ('/', function(req, res) {
       '_draft': false,
       'post-link': req.body['link'],
       'image-link': req.body['image']
-    },
-    live: true
+    }
   });
 
   // var slackResponse = "A new Instagram post has been posted and uploaded to Webflow:\n\n\n";

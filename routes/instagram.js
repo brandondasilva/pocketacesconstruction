@@ -36,7 +36,7 @@ router.post ('/', function(req, res) {
   slackResponse += "This needs to be published to the Webflow CMS";
 
   request.post(
-    'https://hooks.slack.com/services/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',
+    'https://hooks.slack.com/services/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',
     { json: { text: slackResponse } },
     function (error, response, body) {
       if (!error && response.statusCode == 200) {
@@ -68,7 +68,7 @@ module.exports = router;
 //   --data-binary $'{
 //       "fields": {
 //         "name": "Exciting blog post title",
-//         "slug": "exciting-post",
+//         "slug": "exciting-post-2",
 //         "_archived": false,
 //         "_draft": false,
 //         "post-link": "https://www.instagram.com/p/BT4NSOZjHyD/",

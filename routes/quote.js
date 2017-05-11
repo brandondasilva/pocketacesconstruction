@@ -16,24 +16,51 @@ router.get ('/', function(req, res) {
 router.post ('/', function(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
 
+  console.log(req.body);
+
+  // Configuring the email parameters for composing
   var from_email = new helper.Email('info@pocketacescon.com', "Pocket Aces Construction");
   var to_email = new helper.Email('brandon@bdsdesign.co');
-  var subject = "New quote request from the Pocket Aces Construction website";
+  var user_email = new helper.Email(req.body['email'], req.body['name']);
+  var pac_subject = "New quote request from the Pocket Aces Construction website";
+  var user_subject = "Pocket Aces Construction - Quote Form Submission Confirmation";
 
-  var mail = new helper.Mail(from_email, subject, to_email, content);
+  // Construct email requests to be sent to PAC and a confirmation to the user using custom made templates
+  // var request  = composeMail(from_email, pac_subject, to_email, req.body, process.env.QUOTE_PAC_TEMPLATE);
+  // var request2 = composeMail(from_email, user_subject, user_email, req.body, process.env.QUOTE_USER_TEMPLATE);
 
+  var PAC_Response, USER_Response;
 
-  mail.setTemplateId(process.env.QUOTE_PAC_TEMPLATE);
+  // SENDING THE EMAILS
+  // PAC Email
+  // sg.API(request, function(error, response) {
+  //   PAC_Response = response.statusCode;
+  //
+  //   // Log response
+  //   console.log('--PAC EMAIL RESPONSE BEGIN--');
+  //   console.log(response.statusCode);
+  //   console.log(response.body);
+  //   console.log(response.headers);
+  //   console.log('--PAC EMAIL RESPONSE END--\n');
+  //
+  //   res.send(response);
+  // });
 
-
-  var mail2 = new helper.Mail(from_email, subject, to_email, content);
-
-
-  mail2.setTemplateId(process.env.QUOTE_USER_TEMPLATE);
+  // USER Email
+  // sg.API(request, function(error, response) {
+  //   USER_Response = response.statusCode;
+  //
+  //   // Log response
+  //   console.log('--USER EMAIL RESPONSE BEGIN--');
+  //   console.log(response.statusCode);
+  //   console.log(response.body);
+  //   console.log(response.headers);
+  //   console.log('--USER EMAIL RESPONSE END--\n');
+  // });
 
   // HTTP POST to Slack Webhook to post an update on Slack
   // request({
-  //   url: "https://hooks.slack.com/services/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",
+  //   url: process.env.SLACK_WEBHOOK_URL,
   //   method: "POST",
   //   json: true,
   //   body: {
@@ -46,13 +73,13 @@ router.post ('/', function(req, res) {
   //         "text": "This needs to be published to the Webflow CMS using the Webflow Editor",
   //         "fields": [
   //           {
-  //             "title": "Name",
-  //             "value": req.body['name'],
-  //             "short": false
+  //             "title": "PAC Email Status code",
+  //             "value": PAC_Response,
+  //             "short": true
   //           }, {
-  //             "title": "Post Link",
-  //             "value": req.body['link'],
-  //             "short": false
+  //             "title": "User Confirmation Email Status Code",
+  //             "value": USER_Response,
+  //             "short": true
   //           }, {
   //             "title": "Image Link",
   //             "value": req.body['image'],
@@ -70,5 +97,32 @@ router.post ('/', function(req, res) {
 
   res.send(req.body);
 });
+
+function composeMail(from_email, subject, to_email, form_data, template_id) {
+
+  var message_body = new helper.Content("text/plain", form_data['message']);
+
+  var mail = new helper.Mail(from_email, subject, to_email, message_body);
+
+  mail.personalizations[0].addSubstitution( new helper.Substitution('-name-', form_data['name']) );
+  mail.personalizations[0].addSubstitution( new helper.Substitution('-email-', form_data['name']) );
+  mail.personalizations[0].addSubstitution( new helper.Substitution('-city-', form_data['name']) );
+  mail.personalizations[0].addSubstitution( new helper.Substitution('-jobtype-', form_data['name']) );
+  mail.personalizations[0].addSubstitution( new helper.Substitution('-budget-', form_data['name']) );
+  // Checking if the user submitted a phone number
+  if (form_data['phone'] == undefined) {
+    mail.personalizations[0].addSubstitution( new helper.Substitution('-phone-', "Not provided" );
+  } else {
+    mail.personalizations[0].addSubstitution( new helper.Substitution('-phone-', form_data['phone']) );
+  }
+
+  mail.setTemplateId(template_id);
+
+  return sg.EmptyRequest({
+    method: 'POST',
+    path: '/v3/mail/send',
+    body: mail.toJSON()
+  });
+}
 
 module.exports = router;

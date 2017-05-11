@@ -59,41 +59,65 @@ router.post ('/', function(req, res) {
   });
 
   // HTTP POST to Slack Webhook to post an update on Slack
-  // request({
-  //   url: process.env.SLACK_WEBHOOK_URL,
-  //   method: "POST",
-  //   json: true,
-  //   body: {
-  //     "attachments": [
-  //       {
-  //         "fallback": "A new post from Instagram has been posted to Webflow.",
-  //         "color": "#36a64f",
-  //         "pretext": "A new post from Instagram has been posted to Webflow.",
-  //         "title": "Instagram Post to Webflow",
-  //         "text": "This needs to be published to the Webflow CMS using the Webflow Editor",
-  //         "fields": [
-  //           {
-  //             "title": "PAC Email Status code",
-  //             "value": PAC_Response,
-  //             "short": true
-  //           }, {
-  //             "title": "User Confirmation Email Status Code",
-  //             "value": USER_Response,
-  //             "short": true
-  //           }, {
-  //             "title": "Image Link",
-  //             "value": req.body['image'],
-  //             "short": false
-  //           }
-  //         ]
-  //       }
-  //     ]
-  //   }, function (error, response, body) {
-  //     if (!error && response.statusCode == 200) {
-  //       console.log(body);
-  //     }
-  //   }
-  // });
+  request({
+    url: process.env.SLACK_WEBHOOK_URL,
+    method: "POST",
+    json: true,
+    body: {
+      "attachments": [
+        {
+          "fallback": "A new request for a quote has been submitted.",
+          "color": "#36a64f",
+          "pretext": "A new request for a quote has been submitted.",
+          "title": "New Form Quote Submission",
+          "text": "The following are the contents of the form for reference.",
+          "fields": [
+            {
+              "title": "PAC Email Status code",
+              "value": PAC_Response,
+              "short": true
+            }, {
+              "title": "User Confirmation Email Status Code",
+              "value": USER_Response,
+              "short": true
+            }, {
+              "title": "Name",
+              "value": req.body.data['name'],
+              "short": true
+            }, {
+              "title": "Email",
+              "value": req.body.data['email'],
+              "short": true
+            }, {
+              "title": "City",
+              "value": req.body.data['city'],
+              "short": true
+            }, {
+              "title": "Phone Number",
+              "value": (req.body.data['phone'] == undefined) ? 'Not provided' : req.body.data['phone'],
+              "short": true
+            }, {
+              "title": "Job Type",
+              "value": req.body.data['jobtype'],
+              "short": false
+            }, {
+              "title": "Budget",
+              "value": req.body.data['budget'],
+              "short": false
+            }, {
+              "title": "Message",
+              "value": req.body.data['message'],
+              "short": false
+            }
+          ]
+        }
+      ]
+    }, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        console.log(body);
+      }
+    }
+  });
 
   res.send(req.body);
 });

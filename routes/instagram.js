@@ -17,7 +17,7 @@ router.post ('/', function(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
 
   console.log('first check start');
-  console.log(req.body);
+  console.log(req);
   console.log('first check end');
 
   var item = webflow.createItem({
@@ -87,7 +87,7 @@ router.post ('/', function(req, res) {
 
   item.then(i => console.log(i));
 
-  res.send(req);
+  res.send(req.body);
 });
 
 module.exports = router;

@@ -2,7 +2,6 @@
 'use strict';
 
 var express = require('express');
-var request = require('request');
 var router = express.Router();
 
 const Webflow = require('webflow-api')
@@ -30,7 +29,7 @@ router.post ('/', function(req, res) {
 
   // HTTP POST to Slack Webhook to post an update on Slack
   request({
-    url: "https://hooks.slack.com/services/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",
+    url: process.env.SLACK_WEBHOOK_URL,
     method: "POST",
     json: true,
     body: {

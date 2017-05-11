@@ -26,37 +26,37 @@ router.post ('/', function(req, res) {
   var user_subject = "Pocket Aces Construction - Quote Form Submission Confirmation";
 
   // Construct email requests to be sent to PAC and a confirmation to the user using custom made templates
-  // var request  = composeMail(from_email, pac_subject, to_email, req.body, process.env.QUOTE_PAC_TEMPLATE);
-  // var request2 = composeMail(from_email, user_subject, user_email, req.body, process.env.QUOTE_USER_TEMPLATE);
+  var request  = composeMail(from_email, pac_subject, to_email, req.body, process.env.QUOTE_PAC_TEMPLATE);
+  var request2 = composeMail(from_email, user_subject, user_email, req.body, process.env.QUOTE_USER_TEMPLATE);
 
   var PAC_Response, USER_Response;
 
   // SENDING THE EMAILS
   // PAC Email
-  // sg.API(request, function(error, response) {
-  //   PAC_Response = response.statusCode;
-  //
-  //   // Log response
-  //   console.log('--PAC EMAIL RESPONSE BEGIN--');
-  //   console.log(response.statusCode);
-  //   console.log(response.body);
-  //   console.log(response.headers);
-  //   console.log('--PAC EMAIL RESPONSE END--\n');
-  //
-  //   res.send(response);
-  // });
+  sg.API(request, function(error, response) {
+    PAC_Response = response.statusCode;
+
+    // Log response
+    console.log('--PAC EMAIL RESPONSE BEGIN--');
+    console.log(response.statusCode);
+    console.log(response.body);
+    console.log(response.headers);
+    console.log('--PAC EMAIL RESPONSE END--\n');
+
+    res.send(response);
+  });
 
   // USER Email
-  // sg.API(request, function(error, response) {
-  //   USER_Response = response.statusCode;
-  //
-  //   // Log response
-  //   console.log('--USER EMAIL RESPONSE BEGIN--');
-  //   console.log(response.statusCode);
-  //   console.log(response.body);
-  //   console.log(response.headers);
-  //   console.log('--USER EMAIL RESPONSE END--\n');
-  // });
+  sg.API(request, function(error, response) {
+    USER_Response = response.statusCode;
+
+    // Log response
+    console.log('--USER EMAIL RESPONSE BEGIN--');
+    console.log(response.statusCode);
+    console.log(response.body);
+    console.log(response.headers);
+    console.log('--USER EMAIL RESPONSE END--\n');
+  });
 
   // HTTP POST to Slack Webhook to post an update on Slack
   // request({

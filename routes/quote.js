@@ -118,7 +118,7 @@ function composeMail(from_email, subject, to_email, form_data, template_id) {
 
   mail.setTemplateId(template_id);
 
-  return sg.EmptyRequest({
+  return sg.emptyRequest({
     method: 'POST',
     path: '/v3/mail/send',
     body: mail.toJSON()

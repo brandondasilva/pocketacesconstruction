@@ -2,6 +2,7 @@
 'use strict';
 
 var express = require('express');
+var request = require('request');
 var router = express.Router();
 
 var helper = require('sendgrid').mail;
@@ -15,7 +16,7 @@ router.get ('/', function(req, res) {
 router.post ('/', function(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
 
-  
+
 
   // HTTP POST to Slack Webhook to post an update on Slack
   // request({

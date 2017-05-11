@@ -36,7 +36,7 @@ router.post ('/', function(req, res) {
   slackResponse += "This needs to be published to the Webflow CMS";
 
   request.post(
-    'https://hooks.slack.com/services/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',
+    'https://hooks.slack.com/services/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',
     { json: { text: slackResponse } },
     function (error, response, body) {
       if (!error && response.statusCode == 200) {

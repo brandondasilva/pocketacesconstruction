@@ -35,15 +35,28 @@ router.post ('/', function(req, res) {
   slackResponse += "Image Link: " + req.body['image'] + "\n\n";
   slackResponse += "This needs to be published to the Webflow CMS";
 
-  request.post(
-    'https://hooks.slack.com/services/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',
-    { json: { "text": slackResponse } },
-    function (error, response, body) {
+  // request.post(
+  //   'https://hooks.slack.com/services/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',
+  //   { json: { "text": slackResponse } },
+  //   function (error, response, body) {
+  //     if (!error && response.statusCode == 200) {
+  //       console.log(body);
+  //     }
+  //   }
+  // )
+
+  request({
+    url: "https://hooks.slack.com/services/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",
+    method: "POST",
+    json: true,
+    body: {
+      "text": slackResponse
+    }, function (error, response, body) {
       if (!error && response.statusCode == 200) {
         console.log(body);
       }
     }
-  )
+  });
 
   item.then(i => console.log(i));
 
@@ -68,7 +81,7 @@ module.exports = router;
 //   --data-binary $'{
 //       "fields": {
 //         "name": "Exciting blog post title",
-//         "slug": "exciting-post-2",
+//         "slug": "exciting-post-3",
 //         "_archived": false,
 //         "_draft": false,
 //         "post-link": "https://www.instagram.com/p/BT4NSOZjHyD/",

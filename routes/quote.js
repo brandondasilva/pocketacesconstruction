@@ -111,7 +111,7 @@ function composeMail(from_email, subject, to_email, form_data, template_id) {
   mail.personalizations[0].addSubstitution( new helper.Substitution('-budget-', form_data['name']) );
   // Checking if the user submitted a phone number
   if (form_data['phone'] == undefined) {
-    mail.personalizations[0].addSubstitution( new helper.Substitution('-phone-', "Not provided" );
+    mail.personalizations[0].addSubstitution( new helper.Substitution('-phone-', "Not provided") );
   } else {
     mail.personalizations[0].addSubstitution( new helper.Substitution('-phone-', form_data['phone']) );
   }

@@ -122,15 +122,14 @@ router.post ('/', function(req, res) {
 
 function composeMail(from_email, subject, to_email, form_data, template_id) {
 
-  var message_body = new helper.Content("text/plain", form_data['message']);
-
-  var mail = new helper.Mail(from_email, subject, to_email, message_body);
+  var mail = new helper.Mail(from_email, subject, to_email);
 
   mail.personalizations[0].addSubstitution( new helper.Substitution('-name-', form_data['name']) );
   mail.personalizations[0].addSubstitution( new helper.Substitution('-email-', form_data['email']) );
   mail.personalizations[0].addSubstitution( new helper.Substitution('-city-', form_data['city']) );
   mail.personalizations[0].addSubstitution( new helper.Substitution('-jobtype-', form_data['jobtype']) );
   mail.personalizations[0].addSubstitution( new helper.Substitution('-budget-', form_data['budget']) );
+  mail.personalizations[0].addSubstitution( new helper.Substitution('-message-', form_data['message']) );
   // Checking if the user submitted a phone number
   if (form_data['phone'] == undefined) {
     mail.personalizations[0].addSubstitution( new helper.Substitution('-phone-', "Not provided") );

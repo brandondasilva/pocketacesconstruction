@@ -17,7 +17,7 @@ router.post ('/', function(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
 
   console.log('first check start');
-  console.log(req);
+  console.log(req.body);
   console.log('first check end');
 
   var item = webflow.createItem({

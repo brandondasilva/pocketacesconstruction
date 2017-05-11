@@ -16,6 +16,8 @@ router.get ('/', function(req, res) {
 router.post ('/', function(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
 
+  console.log(req.body);
+
   var item = webflow.createItem({
     collectionId: '5904f80595a2d43d313758fc',
     fields: {

@@ -37,7 +37,7 @@ router.post ('/', function(req, res) {
 
   request.post(
     'https://hooks.slack.com/services/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',
-    { json: { text: slackResponse } },
+    { json: { "text": slackResponse } },
     function (error, response, body) {
       if (!error && response.statusCode == 200) {
         console.log(body);

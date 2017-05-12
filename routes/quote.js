@@ -3,24 +3,21 @@
 
 var express = require('express');
 var request = require('request');
+var router = express.Router();
+
+var helper = require('sendgrid').mail;
+var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
+
+// Setting up Google API Authentication
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
-
 var auth = new googleAuth();
 var oauth2Client = new auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
   process.env.GOOGLE_REDIRECT_URL
 );
-
-google.options({
-  auth: oauth2Client
-});
-
-var router = express.Router();
-
-var helper = require('sendgrid').mail;
-var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
+google.options({ auth: oauth2Client });
 
 router.get ('/', function(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
@@ -38,7 +35,7 @@ router.post ('/', function(req, res) {
   var user_subject = "Pocket Aces Construction - Quote Form Submission Confirmation";
 
   // Construct email requests to be sent to PAC and a confirmation to the user using custom made templates
-  var request1  = composeMail(from_email, pac_subject, to_email, req.body, process.env.QUOTE_PAC_TEMPLATE);
+  var request1 = composeMail(from_email, pac_subject, to_email, req.body, process.env.QUOTE_PAC_TEMPLATE);
   var request2 = composeMail(from_email, user_subject, user_email, req.body, process.env.QUOTE_USER_TEMPLATE);
 
   // Add user to email list
@@ -52,63 +49,57 @@ router.post ('/', function(req, res) {
     }]
   });
 
+  // Composing the content for the Slack post
+  var slackContent = {
+    "attachments": [
+      {
+        "fallback": "A new request for a quote has been submitted.",
+        "color": "#36a64f",
+        "pretext": "A new request for a quote has been submitted.",
+        "title": "New Form Quote Submission",
+        "text": "The following are the contents of the form for reference.",
+        "fields": [
+          {
+            "title": "Name",
+            "value": req.body['name'],
+            "short": true
+          }, {
+            "title": "Email",
+            "value": req.body['email'],
+            "short": true
+          }, {
+            "title": "City",
+            "value": req.body['city'],
+            "short": true
+          }, {
+            "title": "Phone Number",
+            "value": (req.body['phone'] == undefined) ? 'Not provided' : req.body['phone'],
+            "short": true
+          }, {
+            "title": "Job Type",
+            "value": req.body['jobtype'],
+            "short": false
+          }, {
+            "title": "Budget",
+            "value": req.body['budget'],
+            "short": false
+          }, {
+            "title": "Message",
+            "value": req.body['message'],
+            "short": false
+          }
+        ]
+      }
+    ]
+  }
+
   // SendGrid API Requests
   sendgridRequest(request1); // Email to PAC
   sendgridRequest(request2); // Confirmation email to user
   sendgridRequest(contactRequest); // Adding user to SendGrid email list
 
-  // HTTP POST to Slack Webhook to post an update on Slack
-  request({
-    url: process.env.SLACK_WEBHOOK_URL,
-    method: "POST",
-    json: true,
-    body: {
-      "attachments": [
-        {
-          "fallback": "A new request for a quote has been submitted.",
-          "color": "#36a64f",
-          "pretext": "A new request for a quote has been submitted.",
-          "title": "New Form Quote Submission",
-          "text": "The following are the contents of the form for reference.",
-          "fields": [
-            {
-              "title": "Name",
-              "value": req.body['name'],
-              "short": true
-            }, {
-              "title": "Email",
-              "value": req.body['email'],
-              "short": true
-            }, {
-              "title": "City",
-              "value": req.body['city'],
-              "short": true
-            }, {
-              "title": "Phone Number",
-              "value": (req.body['phone'] == undefined) ? 'Not provided' : req.body['phone'],
-              "short": true
-            }, {
-              "title": "Job Type",
-              "value": req.body['jobtype'],
-              "short": false
-            }, {
-              "title": "Budget",
-              "value": req.body['budget'],
-              "short": false
-            }, {
-              "title": "Message",
-              "value": req.body['message'],
-              "short": false
-            }
-          ]
-        }
-      ]
-    }, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        console.log(body);
-      }
-    }
-  });
+  // Post to Slack
+  slackPost(slackContent);
 
   res.send(req.body);
 });
@@ -150,6 +141,21 @@ function sendgridRequest(req) {
     console.log(response.body);
     console.log(response.headers);
     console.log('--RESPONSE END--\n');
+  });
+}
+
+function slackPost(content) {
+
+  request({
+    url: process.env.SLACK_WEBHOOK_URL,
+    method: "POST",
+    json: true,
+    body: content,
+    function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        console.log(body);
+      }
+    }
   });
 }
 

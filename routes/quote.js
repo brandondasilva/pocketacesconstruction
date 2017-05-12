@@ -117,7 +117,7 @@ router.post ('/', function(req, res) {
     }
   });
 
-  res.status(PAC_Response);
+  res.send(req.body);
 });
 
 function composeMail(from_email, subject, to_email, form_data, template_id) {

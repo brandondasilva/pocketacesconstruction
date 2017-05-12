@@ -41,9 +41,9 @@ router.post ('/', function(req, res) {
   });
 
   // SendGrid API Requests
-  var PAC_Response  = sendgridRequest(request1);
-  var USER_Response = sendgridRequest(request2);
-  var LIST_Response = sendgridRequest(contactRequest);
+  sendgridRequest(request1);
+  sendgridRequest(request2);
+  sendgridRequest(contactRequest);
 
   // HTTP POST to Slack Webhook to post an update on Slack
   request({
@@ -60,18 +60,6 @@ router.post ('/', function(req, res) {
           "text": "The following are the contents of the form for reference.",
           "fields": [
             {
-              "title": "PAC Email Status code",
-              "value": PAC_Response,
-              "short": true
-            }, {
-              "title": "User Confirmation Email Status Code",
-              "value": USER_Response,
-              "short": true
-            }, {
-              "title": "User Added to Email List Confirmation",
-              "value": LIST_Response,
-              "short": false
-            }, {
               "title": "Name",
               "value": req.body['name'],
               "short": true
@@ -143,8 +131,6 @@ function composeMail(from_email, subject, to_email, form_data, template_id) {
 
 function sendgridRequest(req) {
 
-  var code;
-
   sg.API(req, function(error, response) {
     // Log response
     console.log('--RESPONSE BEGIN--');
@@ -152,11 +138,7 @@ function sendgridRequest(req) {
     console.log(response.body);
     console.log(response.headers);
     console.log('--RESPONSE END--\n');
-
-    code = response.statusCode;
   });
-
-  return code;
 }
 
 module.exports = router;

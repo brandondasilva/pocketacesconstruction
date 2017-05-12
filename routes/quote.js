@@ -122,7 +122,9 @@ router.post ('/', function(req, res) {
 
 function composeMail(from_email, subject, to_email, form_data, template_id) {
 
-  var mail = new helper.Mail(from_email, subject, to_email, form_data['message']);
+  var content = new helper.Content("text/plain", form_data['message']);
+
+  var mail = new helper.Mail(from_email, subject, to_email, content);
 
   mail.personalizations[0].addSubstitution( new helper.Substitution('-name-', form_data['name']) );
   mail.personalizations[0].addSubstitution( new helper.Substitution('-email-', form_data['email']) );

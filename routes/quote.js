@@ -124,17 +124,17 @@ function composeMail(from_email, subject, to_email, form_data, template_id) {
 
   var mail = new helper.Mail(from_email, subject, to_email);
 
-  mail.personalizations.addSubstitution( new helper.Substitution('-name-', form_data['name']) );
-  mail.personalizations.addSubstitution( new helper.Substitution('-email-', form_data['email']) );
-  mail.personalizations.addSubstitution( new helper.Substitution('-city-', form_data['city']) );
-  mail.personalizations.addSubstitution( new helper.Substitution('-jobtype-', form_data['jobtype']) );
-  mail.personalizations.addSubstitution( new helper.Substitution('-budget-', form_data['budget']) );
-  mail.personalizations.addSubstitution( new helper.Substitution('-message-', form_data['message']) );
+  mail.personalizations[0].addSubstitution( new helper.Substitution('-name-', form_data['name']) );
+  mail.personalizations[0].addSubstitution( new helper.Substitution('-email-', form_data['email']) );
+  mail.personalizations[0].addSubstitution( new helper.Substitution('-city-', form_data['city']) );
+  mail.personalizations[0].addSubstitution( new helper.Substitution('-jobtype-', form_data['jobtype']) );
+  mail.personalizations[0].addSubstitution( new helper.Substitution('-budget-', form_data['budget']) );
+  mail.personalizations[0].addSubstitution( new helper.Substitution('-message-', form_data['message']) );
   // Checking if the user submitted a phone number
   if (form_data['phone'] == undefined) {
-    mail.personalizations.addSubstitution( new helper.Substitution('-phone-', "Not provided") );
+    mail.personalizations[0].addSubstitution( new helper.Substitution('-phone-', "Not provided") );
   } else {
-    mail.personalizations.addSubstitution( new helper.Substitution('-phone-', form_data['phone']) );
+    mail.personalizations[0].addSubstitution( new helper.Substitution('-phone-', form_data['phone']) );
   }
 
   mail.setTemplateId(template_id);

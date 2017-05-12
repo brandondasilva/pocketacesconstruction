@@ -80,31 +80,31 @@ router.post ('/', function(req, res) {
               "short": true
             }, {
               "title": "Name",
-              "value": req.body.data['name'],
+              "value": req.body['name'],
               "short": true
             }, {
               "title": "Email",
-              "value": req.body.data['email'],
+              "value": req.body['email'],
               "short": true
             }, {
               "title": "City",
-              "value": req.body.data['city'],
+              "value": req.body['city'],
               "short": true
             }, {
               "title": "Phone Number",
-              "value": (req.body.data['phone'] == undefined) ? 'Not provided' : req.body.data['phone'],
+              "value": (req.body['phone'] == undefined) ? 'Not provided' : req.body['phone'],
               "short": true
             }, {
               "title": "Job Type",
-              "value": req.body.data['jobtype'],
+              "value": req.body['jobtype'],
               "short": false
             }, {
               "title": "Budget",
-              "value": req.body.data['budget'],
+              "value": req.body['budget'],
               "short": false
             }, {
               "title": "Message",
-              "value": req.body.data['message'],
+              "value": req.body['message'],
               "short": false
             }
           ]

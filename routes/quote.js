@@ -117,8 +117,6 @@ router.post ('/', function(req, res) {
     }
   });
 
-  item.then(i => console.log(i));
-
   res.status(PAC_Response);
 });
 

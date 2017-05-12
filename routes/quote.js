@@ -16,18 +16,18 @@ router.get ('/', function(req, res) {
 router.post ('/', function(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
 
-  console.log(req.body.data);
+  console.log(req.body);
 
   // Configuring the email parameters for composing
   var from_email = new helper.Email('info@pocketacescon.com', "Pocket Aces Construction");
   var to_email = new helper.Email('brandon@bdsdesign.co');
-  var user_email = new helper.Email(req.body.data['email'], req.body.data['name']);
+  var user_email = new helper.Email(req.body['email'], req.body['name']);
   var pac_subject = "New quote request from the Pocket Aces Construction website";
   var user_subject = "Pocket Aces Construction - Quote Form Submission Confirmation";
 
   // Construct email requests to be sent to PAC and a confirmation to the user using custom made templates
-  var request  = composeMail(from_email, pac_subject, to_email, req.body.data, process.env.QUOTE_PAC_TEMPLATE);
-  var request2 = composeMail(from_email, user_subject, user_email, req.body.data, process.env.QUOTE_USER_TEMPLATE);
+  var request  = composeMail(from_email, pac_subject, to_email, req.body, process.env.QUOTE_PAC_TEMPLATE);
+  var request2 = composeMail(from_email, user_subject, user_email, req.body, process.env.QUOTE_USER_TEMPLATE);
 
   var PAC_Response, USER_Response;
 

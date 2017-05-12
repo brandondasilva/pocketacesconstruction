@@ -26,14 +26,14 @@ router.post ('/', function(req, res) {
   var user_subject = "Pocket Aces Construction - Quote Form Submission Confirmation";
 
   // Construct email requests to be sent to PAC and a confirmation to the user using custom made templates
-  var request  = composeMail(from_email, pac_subject, to_email, req.body, process.env.QUOTE_PAC_TEMPLATE);
+  var request1  = composeMail(from_email, pac_subject, to_email, req.body, process.env.QUOTE_PAC_TEMPLATE);
   var request2 = composeMail(from_email, user_subject, user_email, req.body, process.env.QUOTE_USER_TEMPLATE);
 
   var PAC_Response, USER_Response;
 
   // SENDING THE EMAILS
   // PAC Email
-  sg.API(request, function(error, response) {
+  sg.API(request1, function(error, response) {
     PAC_Response = response.statusCode;
 
     // Log response

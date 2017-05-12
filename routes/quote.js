@@ -143,16 +143,20 @@ function composeMail(from_email, subject, to_email, form_data, template_id) {
 
 function sendgridRequest(req) {
 
+  var code;
+
   sg.API(req, function(error, response) {
     // Log response
-    console.log('--EMAIL LIST RESPONSE BEGIN--');
+    console.log('--RESPONSE BEGIN--');
     console.log(response.statusCode);
     console.log(response.body);
     console.log(response.headers);
-    console.log('--EMAIL LIST RESPONSE END--\n');
+    console.log('--RESPONSE END--\n');
 
-    return response.statusCode;
+    code = response.statusCode;
   });
+
+  return code;
 }
 
 module.exports = router;

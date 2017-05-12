@@ -144,6 +144,10 @@ function sendgridRequest(req) {
   });
 }
 
+function googleSheetEntry() {
+
+}
+
 function slackPost(content) {
 
   request({

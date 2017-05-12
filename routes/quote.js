@@ -117,6 +117,8 @@ router.post ('/', function(req, res) {
     }
   });
 
+  item.then(i => console.log(i));
+
   res.send(req.body);
 });
 

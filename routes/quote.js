@@ -29,6 +29,17 @@ router.post ('/', function(req, res) {
   var request1  = composeMail(from_email, pac_subject, to_email, req.body, process.env.QUOTE_PAC_TEMPLATE);
   var request2 = composeMail(from_email, user_subject, user_email, req.body, process.env.QUOTE_USER_TEMPLATE);
 
+  // Add user to email list
+  var contactRequest = sg.emptyRequest({
+    method: 'POST',
+    path: '/v3/contactdb/recipients',
+    body: [{
+      "email": req.body['email'],
+      "first_name": req.body['name'],
+      "last_name": ""
+    }]
+  });
+
   var PAC_Response, USER_Response;
 
   // SENDING THE EMAILS
@@ -54,6 +65,16 @@ router.post ('/', function(req, res) {
     console.log(response.body);
     console.log(response.headers);
     console.log('--USER EMAIL RESPONSE END--\n');
+  });
+
+  // USER Email
+  sg.API(contactRequest, function(error, response) {
+    // Log response
+    console.log('--EMAIL LIST RESPONSE BEGIN--');
+    console.log(response.statusCode);
+    console.log(response.body);
+    console.log(response.headers);
+    console.log('--EMAIL LIST RESPONSE END--\n');
   });
 
   // HTTP POST to Slack Webhook to post an update on Slack

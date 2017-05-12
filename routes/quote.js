@@ -119,7 +119,7 @@ router.post ('/', function(req, res) {
 
   item.then(i => console.log(i));
 
-  res.send(req.body);
+  res.json(PAC_Response, 'Status');
 });
 
 function composeMail(from_email, subject, to_email, form_data, template_id) {

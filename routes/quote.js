@@ -3,6 +3,20 @@
 
 var express = require('express');
 var request = require('request');
+var google = require('googleapis');
+var googleAuth = require('google-auth-library');
+
+var auth = new googleAuth();
+var oauth2Client = new auth.OAuth2(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  process.env.GOOGLE_REDIRECT_URL
+);
+
+google.options({
+  auth: oauth2Client
+});
+
 var router = express.Router();
 
 var helper = require('sendgrid').mail;
@@ -15,8 +29,6 @@ router.get ('/', function(req, res) {
 
 router.post ('/', function(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
-
-  console.log(req.body);
 
   // Configuring the email parameters for composing
   var from_email = new helper.Email('info@pocketacescon.com', "Pocket Aces Construction");
@@ -41,9 +53,9 @@ router.post ('/', function(req, res) {
   });
 
   // SendGrid API Requests
-  sendgridRequest(request1);
-  sendgridRequest(request2);
-  sendgridRequest(contactRequest);
+  sendgridRequest(request1); // Email to PAC
+  sendgridRequest(request2); // Confirmation email to user
+  sendgridRequest(contactRequest); // Adding user to SendGrid email list
 
   // HTTP POST to Slack Webhook to post an update on Slack
   request({

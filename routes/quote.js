@@ -93,7 +93,7 @@ router.post ('/', function(req, res) {
       spreadsheetId: '1Xj-igcg5c7hWyDWg7vkyThmekbPQ0aMBg1rsDI39Sa4',
       range: 'Form Data!A2:G',
       valueInputOption: 'RAW',
-      // majorDimension: "ROWS",
+      majorDimension: 'ROWS',
       auth: authClient,
       values: [
         [

@@ -11,6 +11,14 @@ var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 // Setting up Google API Authentication
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
+var oauth2Client = new auth.OAuth2(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  process.env.GOOGLE_REDIRECT_URL
+);
+google.options({
+  auth: oauth2Client
+});
 
 var sheets = google.sheets('v4');
 
@@ -88,13 +96,12 @@ router.post ('/', function(req, res) {
     ]
   }
 
-  authorize(function(authClient) {
+  function() {
     var sheetReq = {
       spreadsheetId: '1Xj-igcg5c7hWyDWg7vkyThmekbPQ0aMBg1rsDI39Sa4',
       range: 'Form Data!A2:G',
       valueInputOption: 'RAW',
       majorDimension: "ROWS",
-      auth: authClient,
       values: [
         [
           req.body['name'],
@@ -114,7 +121,7 @@ router.post ('/', function(req, res) {
         return;
       }
     });
-  });
+  };
 
   // SendGrid API Requests
   sendgridRequest(request1); // Email to PAC
@@ -186,16 +193,12 @@ function slackPost(content) {
 function authorize(callback) {
 
   var auth = new googleAuth();
-  var oauth2Client = new auth.OAuth2(
-    process.env.GOOGLE_CLIENT_ID,
-    process.env.GOOGLE_CLIENT_SECRET,
-    process.env.GOOGLE_REDIRECT_URL
-  );
 
   if (oauth2Client == null) {
     console.log('Google authentication failed');
     return;
   }
+
   callback(oauth2Client);
 }
 

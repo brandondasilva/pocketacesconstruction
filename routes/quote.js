@@ -11,13 +11,8 @@ var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 // Setting up Google API Authentication
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
-var auth = new googleAuth();
-var oauth2Client = new auth.OAuth2(
-  process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET,
-  process.env.GOOGLE_REDIRECT_URL
-);
-google.options({ auth: oauth2Client });
+
+var sheets = google.sheets('v4');
 
 router.get ('/', function(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
@@ -93,6 +88,34 @@ router.post ('/', function(req, res) {
     ]
   }
 
+  authorize(function(authClient) {
+    var sheetReq = {
+      spreadsheetId: '1Xj-igcg5c7hWyDWg7vkyThmekbPQ0aMBg1rsDI39Sa4',
+      range: 'Form Data!A2:G',
+      valueInputOption: 'RAW',
+      majorDimension: "ROWS",
+      auth: authClient,
+      values: [
+        [
+          req.body['name'],
+          req.body['email'],
+          req.body['phone'],
+          req.body['city'],
+          req.body['jobtype'],
+          req.body['budget'],
+          req.body['message']
+        ]
+      ]
+    };
+
+    sheets.spreadsheets.values.append(sheetReq, function(err, response) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+    });
+  });
+
   // SendGrid API Requests
   sendgridRequest(request1); // Email to PAC
   sendgridRequest(request2); // Confirmation email to user
@@ -144,10 +167,6 @@ function sendgridRequest(req) {
   });
 }
 
-function googleSheetEntry() {
-
-}
-
 function slackPost(content) {
 
   request({
@@ -161,6 +180,23 @@ function slackPost(content) {
       }
     }
   });
+}
+
+
+function authorize(callback) {
+
+  var auth = new googleAuth();
+  var oauth2Client = new auth.OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    process.env.GOOGLE_REDIRECT_URL
+  );
+
+  if (oauth2Client == null) {
+    console.log('Google authentication failed');
+    return;
+  }
+  callback(oauth2Client);
 }
 
 module.exports = router;

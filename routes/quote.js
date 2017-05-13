@@ -93,19 +93,21 @@ router.post ('/', function(req, res) {
       spreadsheetId: '1Xj-igcg5c7hWyDWg7vkyThmekbPQ0aMBg1rsDI39Sa4',
       range: 'Form Data!A2:G',
       valueInputOption: 'RAW',
-      majorDimension: 'ROWS',
       auth: authClient,
-      values: [
-        [
-          req.body['name'],
-          req.body['email'],
-          req.body['phone'],
-          req.body['city'],
-          req.body['jobtype'],
-          req.body['budget'],
-          req.body['message']
+      resource: {
+        majorDimension: 'ROWS',
+        values: [
+          [
+            req.body['name'],
+            req.body['email'],
+            req.body['phone'],
+            req.body['city'],
+            req.body['jobtype'],
+            req.body['budget'],
+            req.body['message']
+          ]
         ]
-      ]
+      }
     };
 
     sheets.spreadsheets.values.append(sheetReq, function(err, response) {

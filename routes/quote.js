@@ -191,7 +191,7 @@ function authorize(callback) {
 
   var auth = new googleAuth();
 
-  var oauth2Client = new auth.OAuth2(
+  var oauth2Client = new auth(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
     process.env.GOOGLE_REDIRECT_URL

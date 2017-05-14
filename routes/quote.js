@@ -12,7 +12,7 @@ var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
 // Setting up Google API Authentication
 var google = require('googleapis');
-var googleAuth = require('google-auth-library');
+var googleAuth = google.auth.OAuth2;
 
 var sheets = google.sheets('v4');
 

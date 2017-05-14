@@ -201,7 +201,7 @@ function authorize(callback) {
   }
 
   var url = oauth2Client.generateAuthUrl({
-    access_type: 'offline',
+    access_type: 'online',
     scope: 'https://www.googleapis.com/auth/spreadsheets'
   });
 

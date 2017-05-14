@@ -1,6 +1,8 @@
 
 'use strict';
 
+var url = require('url');
+
 var express = require('express');
 var request = require('request');
 var router = express.Router();
@@ -200,12 +202,13 @@ function authorize(callback) {
     return;
   }
 
-  var url = oauth2Client.generateAuthUrl({
-    access_type: 'online',
+  var AuthUrl = oauth2Client.generateAuthUrl({
+    access_type: 'offline',
     scope: 'https://www.googleapis.com/auth/spreadsheets'
   });
 
-  console.log(url);
+  console.log(AuthUrl);
+  console.log(url.parse(AuthUrl));
 
   oauth2Client.setCredentials({
     access_token: process.env.GOOGLE_ACCESS_TOKEN,
@@ -213,6 +216,10 @@ function authorize(callback) {
   });
 
   callback(oauth2Client);
+}
+
+function getToken() {
+
 }
 
 module.exports = router;

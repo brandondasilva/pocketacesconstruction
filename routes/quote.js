@@ -200,6 +200,13 @@ function authorize(callback) {
     return;
   }
 
+  var url = oauth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: 'https://www.googleapis.com/auth/spreadsheets'
+  });
+
+  console.log(url);
+
   oauth2Client.setCredentials({
     access_token: process.env.GOOGLE_ACCESS_TOKEN,
     refresh_token: process.env.GOOGLE_REFRESH_TOKEN

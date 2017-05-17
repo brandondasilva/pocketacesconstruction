@@ -192,7 +192,7 @@ function authorize(callback) {
   // var auth = new googleAuth();
 
   var oauth2Client = new googleAuth(
-    "bds-design-co@appspot.gserviceaccount.com",
+    process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
     process.env.GOOGLE_REDIRECT_URL
   );
@@ -202,9 +202,15 @@ function authorize(callback) {
     return;
   }
 
+  var scopes = [
+    'https://www.googleapis.com/auth/spreadsheets',
+    'https://accounts.google.com/o/oauth2/auth',
+    'https://accounts.google.com/o/oauth2/token'
+  ]
+
   var AuthUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
-    scope: ['https://www.googleapis.com/auth/spreadsheets']
+    scope: scopes
   });
 
   console.log(AuthUrl);

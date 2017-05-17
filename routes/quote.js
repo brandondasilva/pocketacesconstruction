@@ -202,6 +202,15 @@ function authorize(callback) {
     return;
   }
 
+  oauth2Client.setCredentials({
+    refresh_token: process.env.GOOGLE_REFRESH_TOKEN
+  });
+
+  oauth2Client.refreshAccessToken(function(err, tokens) {
+    console.log('before tokens');
+    console.log(tokens);
+  });
+
   var scopes = [
     'https://www.googleapis.com/auth/drive.file',
     'https://www.googleapis.com/auth/drive',
@@ -216,14 +225,7 @@ function authorize(callback) {
   console.log(AuthUrl);
   console.log(url.parse(AuthUrl));
 
-  oauth2Client.setCredentials({
-    refresh_token: process.env.GOOGLE_REFRESH_TOKEN
-  });
 
-  oauth2Client.refreshAccessToken(function(err, tokens) {
-    console.log('before tokens');
-    console.log(tokens);
-  })
 
   callback(oauth2Client);
 }

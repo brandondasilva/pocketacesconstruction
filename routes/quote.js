@@ -210,10 +210,6 @@ function authorize(callback) {
   console.log(AuthUrl);
   console.log(url.parse(AuthUrl));
 
-  oauth2Client.setCredentials({
-    refresh_token: process.env.GOOGLE_REFRESH_TOKEN
-  });
-
   oauth2Client.refreshAccessToken(function(err, tokens) {
     console.log(tokens);
   })

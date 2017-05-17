@@ -2,6 +2,7 @@
 'use strict';
 
 var url = require('url');
+var moment = require('moment-timezone');
 
 var express = require('express');
 var request = require('request');
@@ -98,6 +99,7 @@ router.post ('/', function(req, res) {
 
   authorize(function(authClient) {
     var d = new Date();
+    var date = moment.tz(d, "America/Toronto").format();
 
     var sheetReq = {
       spreadsheetId: '1Xj-igcg5c7hWyDWg7vkyThmekbPQ0aMBg1rsDI39Sa4',
@@ -110,7 +112,7 @@ router.post ('/', function(req, res) {
           [
             req.body['name'],
             req.body['email'],
-            d.toDateString() + " " + d.toTimeString(),
+            date,
             req.body['phone'],
             req.body['city'],
             req.body['jobtype'],

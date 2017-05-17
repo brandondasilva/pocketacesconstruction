@@ -214,6 +214,22 @@ function authorize(callback) {
   oauth2Client.refreshAccessToken(function(err, tokens) {
     console.log('before tokens');
     console.log(tokens);
+
+    request({
+      url: process.env.HEROKU_API_URL + "config-vars",
+      method: "PATCH",
+      json: true,
+      body: {
+        "GOOGLE_ACCESS_TOKEN": tokens.access_token
+      },
+      function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          console.log(body);
+        } else {
+          console.log('Access token unable to be set. Status: ' + response.statusCode);
+        }
+      }
+    })
   });
 
   var scopes = [

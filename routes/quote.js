@@ -121,9 +121,9 @@ router.post ('/', function(req, res) {
   });
 
   // SendGrid API Requests
-  sendgridRequest(request1); // Email to PAC
-  sendgridRequest(request2); // Confirmation email to user
-  sendgridRequest(contactRequest); // Adding user to SendGrid email list
+  // sendgridRequest(request1); // Email to PAC
+  // sendgridRequest(request2); // Confirmation email to user
+  // sendgridRequest(contactRequest); // Adding user to SendGrid email list
 
   // Post to Slack
   slackPost(slackContent);
@@ -192,7 +192,7 @@ function authorize(callback) {
   // var auth = new googleAuth();
 
   var oauth2Client = new googleAuth(
-    'bds-design-co@appspot.gserviceaccount.com',
+    process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
     process.env.GOOGLE_REDIRECT_URL
   );

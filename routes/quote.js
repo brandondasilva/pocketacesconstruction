@@ -203,9 +203,9 @@ function authorize(callback) {
   }
 
   var scopes = [
-    'https://www.googleapis.com/auth/spreadsheets',
-    'https://accounts.google.com/o/oauth2/auth',
-    'https://accounts.google.com/o/oauth2/token'
+    'https://www.googleapis.com/auth/drive.file',
+    'https://www.googleapis.com/auth/drive',
+    'https://www.googleapis.com/auth/spreadsheets'
   ]
 
   var AuthUrl = oauth2Client.generateAuthUrl({

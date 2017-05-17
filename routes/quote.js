@@ -16,6 +16,12 @@ var googleAuth = google.auth.OAuth2;
 
 var sheets = google.sheets('v4');
 
+var oauth2Client = new googleAuth(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  process.env.GOOGLE_REDIRECT_URL
+);
+
 router.get ('/', function(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
   res.send('API v1 GET: Hello World!');
@@ -190,12 +196,6 @@ function slackPost(content) {
 function authorize(callback) {
 
   // var auth = new googleAuth();
-
-  var oauth2Client = new googleAuth(
-    process.env.GOOGLE_CLIENT_ID,
-    process.env.GOOGLE_CLIENT_SECRET,
-    process.env.GOOGLE_REDIRECT_URL
-  );
 
   if (oauth2Client == null) {
     console.log('Google authentication failed');

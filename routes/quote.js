@@ -192,7 +192,7 @@ function authorize(callback) {
   // var auth = new googleAuth();
 
   var oauth2Client = new googleAuth(
-    process.env.GOOGLE_CLIENT_ID,
+    'bds-design-co@appspot.gserviceaccount.com',
     process.env.GOOGLE_CLIENT_SECRET,
     process.env.GOOGLE_REDIRECT_URL
   );

@@ -97,9 +97,11 @@ router.post ('/', function(req, res) {
   }
 
   authorize(function(authClient) {
+    var d = new Date();
+
     var sheetReq = {
       spreadsheetId: '1Xj-igcg5c7hWyDWg7vkyThmekbPQ0aMBg1rsDI39Sa4',
-      range: 'Form Data!A2:G',
+      range: 'Form Data!A2:H',
       valueInputOption: 'RAW',
       auth: authClient,
       resource: {
@@ -108,6 +110,7 @@ router.post ('/', function(req, res) {
           [
             req.body['name'],
             req.body['email'],
+            d.toDateString(),
             req.body['phone'],
             req.body['city'],
             req.body['jobtype'],

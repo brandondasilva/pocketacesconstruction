@@ -110,7 +110,7 @@ router.post ('/', function(req, res) {
           [
             req.body['name'],
             req.body['email'],
-            d.toDateString(),
+            d.toDateString() + " " + d.toTimeString(),
             req.body['phone'],
             req.body['city'],
             req.body['jobtype'],

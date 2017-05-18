@@ -5,8 +5,9 @@ var express = require('express');
 var request = require('request');
 var router = express.Router();
 
-const Webflow = require('webflow-api')
-const webflow = new Webflow({ token: process.env.WEBFLOW_TOKEN })
+// Set up and configure Webflow
+var Webflow = require('webflow-api')
+var webflow = new Webflow({ token: process.env.WEBFLOW_TOKEN })
 
 router.get ('/', function(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
@@ -16,6 +17,7 @@ router.get ('/', function(req, res) {
 router.post ('/', function(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
 
+  // Create Webflow item to push to the CMS
   var item = webflow.createItem({
     collectionId: '5904f80595a2d43d313758fc',
     fields: {
@@ -65,7 +67,7 @@ router.post ('/', function(req, res) {
     }
   });
 
-  item.then(i => console.log(i));
+  item.then(i => console.log(i)); // Send to Webflow
 
   res.send(req.body);
 });

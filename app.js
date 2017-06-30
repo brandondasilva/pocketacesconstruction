@@ -26,7 +26,7 @@ app.use('/instagram', instagram);
 app.get('/', function(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
 
-  res.status(200);
+  res.status(200).send('ok');
 });
 
 app.listen(app.get('port'), function() {

@@ -33,7 +33,7 @@ router.post ('/', function(req, res) {
 
   // Configuring the email parameters for composing
   var from_email = new helper.Email('info@pocketacescon.com', "Pocket Aces Construction");
-  var to_email = new helper.Email('brandon@bdsdesign.co');
+  var to_email = new helper.Email('anthony@pocketacescon.com');
   var user_email = new helper.Email(req.body['email'], req.body['name']);
   var pac_subject = "New quote request from the Pocket Aces Construction website";
   var user_subject = "Pocket Aces Construction - Quote Form Submission Confirmation";

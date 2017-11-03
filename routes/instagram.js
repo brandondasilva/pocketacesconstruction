@@ -19,7 +19,7 @@ router.post ('/', function(req, res) {
 
   // Create Webflow item to push to the CMS
   var item = webflow.createItem({
-    collectionId: '5904f80595a2d43d313758fc',
+    collectionId: process.env.WEBFLOW_COLLECTION_ID,
     fields: {
       'name': req.body['name'],
       'slug': req.body['slug'],
@@ -30,6 +30,11 @@ router.post ('/', function(req, res) {
     }
   });
 
+  var publish = webflow.publishSite({
+    siteId: process.env.WEBFLOW_SITE_ID,
+    domains: ['pocketaces.webflow.io', 'www.pocketacescom.com']
+  });
+
   // HTTP POST to Slack Webhook to post an update on Slack
   request({
     url: process.env.SLACK_WEBHOOK_URL,
@@ -38,11 +43,10 @@ router.post ('/', function(req, res) {
     body: {
       "attachments": [
         {
-          "fallback": "A new post from Instagram has been posted to Webflow.",
+          "fallback": "A new post from Instagram has been posted on Webflow.",
           "color": "#36a64f",
-          "pretext": "A new post from Instagram has been posted to Webflow.",
+          "pretext": "A new post from Instagram has been posted on Webflow.",
           "title": "Instagram Post to Webflow",
-          "text": "This needs to be published to the Webflow CMS using the Webflow Editor",
           "fields": [
             {
               "title": "Name",
@@ -68,6 +72,7 @@ router.post ('/', function(req, res) {
   });
 
   item.then(i => console.log(i)); // Send to Webflow
+  publish.then(p => console.log(p)); // Publish on webflow
 
   res.send(req.body);
 });

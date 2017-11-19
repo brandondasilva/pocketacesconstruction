@@ -11,18 +11,6 @@ var router = express.Router();
 var helper = require('sendgrid').mail;
 var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
-// Setting up Google API Authentication
-var google = require('googleapis');
-var googleAuth = google.auth.OAuth2;
-var sheets = google.sheets('v4');
-
-// Set up the OAuth2 Client using the environment variables from Heroku
-var oauth2Client = new googleAuth(
-  process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET,
-  process.env.GOOGLE_REDIRECT_URL
-);
-
 router.get ('/', function(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
   res.send('API v1 GET: Hello World!');
@@ -96,45 +84,6 @@ router.post ('/', function(req, res) {
       }
     ]
   }
-
-  // Call function to authorize access to the Google API and send data to spreadsheet
-  authorize(function(authClient) {
-
-    // Today's date for logging
-    var d = new Date(); // Create new Date
-    var date = moment.tz(d, "America/Toronto").format(); // Format the data to the appropriate timezone
-
-    // Create request object to send to the spreadsheet
-    var sheetReq = {
-      spreadsheetId: '1Xj-igcg5c7hWyDWg7vkyThmekbPQ0aMBg1rsDI39Sa4',
-      range: 'Form Data!A2:H',
-      valueInputOption: 'RAW',
-      auth: authClient,
-      resource: {
-        majorDimension: 'ROWS',
-        values: [
-          [
-            req.body['name'],
-            req.body['email'],
-            date,
-            req.body['phone'],
-            req.body['city'],
-            req.body['jobtype'],
-            req.body['budget'],
-            req.body['message']
-          ]
-        ]
-      }
-    };
-
-    // Append form data to the spreadsheet with the request sheetReq
-    sheets.spreadsheets.values.append(sheetReq, function(err, response) {
-      if (err) {
-        console.log(err);
-        return;
-      }
-    });
-  });
 
   // SendGrid API Requests
   // sendgridRequest(request1); // Email to PAC
@@ -220,36 +169,6 @@ function slackPost(content) {
       }
     }
   });
-}
-
-/**
- * Authorize access to the Google API to update the spreadsheet
- *
- * @param {function} callback The callback to call
- */
-function authorize(callback) {
-
-  if (oauth2Client == null) {
-    console.log('Google authentication failed');
-    return;
-  }
-
-  // Set credentials and tokens
-  oauth2Client.setCredentials({ refresh_token: process.env.GOOGLE_REFRESH_TOKEN });
-  oauth2Client.refreshAccessToken(function(err, tokens) { if (err) { console.log(err); } });
-
-  var scopes = [
-    'https://www.googleapis.com/auth/drive.file',
-    'https://www.googleapis.com/auth/drive',
-    'https://www.googleapis.com/auth/spreadsheets'
-  ]
-
-  var AuthUrl = oauth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: scopes
-  });
-
-  callback(oauth2Client);
 }
 
 module.exports = router;

@@ -81,6 +81,7 @@ router.post ('/', function(req, res) {
   });*/
 
   item.then(function(i) {
+    console.log(i);
     console.log(typeof(i));
     console.log(JSON.stringify(i));
   }); // Send to Webflow

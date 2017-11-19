@@ -18,13 +18,13 @@ router.post ('/', function(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
 
   // Checking the length of the title to be uploaded to Webflow properly
-  /*if (req.body['name'].length > 256) {
+  if (req.body['name'].length > 256) {
     req.body['name'] = req.body['name'].slice(0, 255);
   }
 
   // Removing hashtags from title
   var tempName = req.body['name'].split("#");
-  req.body['name'] = tempName[0];*/
+  req.body['name'] = tempName[0];
 
   // Create Webflow item to push to the CMS
   var item = webflow.createItem({
@@ -41,11 +41,11 @@ router.post ('/', function(req, res) {
 
   var publish = webflow.publishSite({
     siteId: process.env.WEBFLOW_SITE_ID,
-    domains: ['pocketaces.webflow.io', 'www.pocketacescom.com']
+    domains: ['pocketaces.webflow.io', 'www.pocketacescon.com']
   });
 
   // HTTP POST to Slack Webhook to post an update on Slack
-  /*request({
+  request({
     url: process.env.SLACK_WEBHOOK_URL,
     method: "POST",
     json: true,
@@ -78,13 +78,9 @@ router.post ('/', function(req, res) {
         console.log(body);
       }
     }
-  });*/
+  });
 
-  item.then(function(i) {
-    console.log(i);
-    console.log(typeof(i));
-    console.log(JSON.stringify(i));
-  }); // Send to Webflow
+  item.then(i => console.log(i)); // Send to Webflow
   publish.then(p => console.log(p)); // Publish on webflow
 
   res.send(req.body);

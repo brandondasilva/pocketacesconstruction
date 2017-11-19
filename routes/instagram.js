@@ -23,7 +23,7 @@ router.post ('/', function(req, res) {
   }
 
   // Removing hashtags from title
-  tempName = req.body['name'].split("#");
+  var tempName = req.body['name'].split("#");
   req.body['name'] = tempName[0];
   console.log(req.body['name']);
 

@@ -22,6 +22,9 @@ router.post ('/', function(req, res) {
     req.body['name'] = req.body['name'].slice(0, 255);
   }
 
+  // Removing hashtags from title
+  tempName = req.body['name'].split("#");
+  req.body['name'] = tempName[0];
   console.log(req.body['name']);
 
   // Create Webflow item to push to the CMS

@@ -86,9 +86,9 @@ router.post ('/', function(req, res) {
   }
 
   // SendGrid API Requests
-  // sendgridRequest(request1); // Email to PAC
-  // sendgridRequest(request2); // Confirmation email to user
-  // sendgridRequest(contactRequest); // Adding user to SendGrid email list
+  sendgridRequest(request1); // Email to PAC
+  sendgridRequest(request2); // Confirmation email to user
+  sendgridRequest(contactRequest); // Adding user to SendGrid email list
 
   slackPost(slackContent); // Post to Slack
 

@@ -49,38 +49,7 @@ router.post ('/', function(req, res) {
         "color": "#36a64f",
         "pretext": "A new request for a quote has been submitted.",
         "title": "New Form Quote Submission",
-        "text": "The following are the contents of the form for reference.",
-        "fields": [
-          {
-            "title": "Name",
-            "value": req.body['name'],
-            "short": true
-          }, {
-            "title": "Email",
-            "value": req.body['email'],
-            "short": true
-          }, {
-            "title": "City",
-            "value": req.body['city'],
-            "short": true
-          }, {
-            "title": "Phone Number",
-            "value": (req.body['phone'] == undefined) ? 'Not provided' : req.body['phone'],
-            "short": true
-          }, {
-            "title": "Job Type",
-            "value": req.body['jobtype'],
-            "short": false
-          }, {
-            "title": "Budget",
-            "value": req.body['budget'],
-            "short": false
-          }, {
-            "title": "Message",
-            "value": req.body['message'],
-            "short": false
-          }
-        ]
+        "text": "A new quote form was filled out on the Pocket Aces website."
       }
     ]
   }

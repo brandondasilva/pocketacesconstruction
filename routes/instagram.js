@@ -35,6 +35,7 @@ router.post ('/', function(req, res) {
       '_archived': false,
       '_draft': false,
       'post-link': req.body['link'],
+      'main-image': req.body['image'],
       'image-link': req.body['image']
     }
   });

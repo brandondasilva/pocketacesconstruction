@@ -55,22 +55,7 @@ router.post ('/', function(req, res) {
           "fallback": "A new post from Instagram has been posted on Webflow.",
           "color": "#36a64f",
           "pretext": "A new post from Instagram has been posted on Webflow.",
-          "title": "Instagram Post to Webflow",
-          "fields": [
-            {
-              "title": "Name",
-              "value": req.body['name'],
-              "short": false
-            }, {
-              "title": "Post Link",
-              "value": req.body['link'],
-              "short": false
-            }, {
-              "title": "Image Link",
-              "value": req.body['image'],
-              "short": false
-            }
-          ]
+          "title": "Instagram Post to Webflow"
         }
       ]
     }, function (error, response, body) {

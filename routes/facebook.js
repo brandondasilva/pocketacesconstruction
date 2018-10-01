@@ -24,7 +24,7 @@ router.post ('/', function(req, res) {
 
   var templateFile = "";
   var template = "";
-  var toEmail = "da.silva.brandon@gmail.com";
+  var toEmail = "";
 
   if (req.body['company'] == "pac") {
 
@@ -37,7 +37,7 @@ router.post ('/', function(req, res) {
       city: req.body['city'],
       jobtype: req.body['jobtype']
     });
-    // toEmail = "anthony@pocketacescon.com";
+    toEmail = "anthony@pocketacescon.com";
 
   } else if (req.body['company'] == "pare") {
 
@@ -49,7 +49,7 @@ router.post ('/', function(req, res) {
       phone: req.body['phone'],
       servicetype: req.body['servicetype']
     });
-    // toEmail = "amaral_anthony@hotmail.com";
+    toEmail = "amaral_anthony@hotmail.com";
 
   }
 

@@ -28,9 +28,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 
 var quote = require('./routes/quote');
+var facebook = require('./routes/facebook');
 var instagram = require('./routes/instagram');
 
 app.use('/quote', quote);
+app.use('/facebook', facebook);
 app.use('/instagram', instagram);
 
 app.get('/', function(req, res) {

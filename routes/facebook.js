@@ -24,6 +24,7 @@ router.post ('/', function(req, res) {
 
   var templateFile = "";
   var template = "";
+  var toEmail = "da.silva.brandon@gmail.com";
 
   if (req.body['company'] == "pac") {
 
@@ -36,6 +37,7 @@ router.post ('/', function(req, res) {
       city: req.body['city'],
       jobtype: req.body['jobtype']
     });
+    // toEmail = "anthony@pocketacescon.com";
 
   } else if (req.body['company'] == "pare") {
 
@@ -47,6 +49,7 @@ router.post ('/', function(req, res) {
       phone: req.body['phone'],
       servicetype: req.body['servicetype']
     });
+    // toEmail = "amaral_anthony@hotmail.com";
 
   }
 
@@ -62,7 +65,7 @@ router.post ('/', function(req, res) {
  * @param {String} from_email "From" email
  * @param {String} message Template file for email message
  */
-function composeMail(from_email, message) {
+function composeMail(from_email, to_email, message) {
 
   return sg.emptyRequest({
     method: 'POST',
@@ -71,7 +74,7 @@ function composeMail(from_email, message) {
       personalizations: [
         {
           to: [{
-            email: 'da.silva.brandon@gmail.com'
+            email: to_email
           }],
           subject: "New Facebook Form Submission"
         }

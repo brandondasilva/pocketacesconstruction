@@ -53,7 +53,7 @@ router.post ('/', function(req, res) {
 
   }
 
-  sendgridRequest(composeMail(req.body['email'], template));
+  sendgridRequest(composeMail(req.body['email'], toEmail, template));
 
   res.send(req.body);
 

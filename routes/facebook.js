@@ -52,6 +52,8 @@ router.post ('/', function(req, res) {
 
   sendgridRequest(composeMail(req.body['email'], template));
 
+  res.send(req.body);
+
 });
 
 /**
